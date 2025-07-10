@@ -1,11 +1,27 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { CreateRoom } from "./pages/create-room"
+import { Room } from "./pages/room"
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+        },
+    },
+})
+
 function App() {
     return (
-        <div>
-            <h1 className="text-6xl font-bold text-blue-500">Hello World!</h1>
-            <p className="mt-3 text-2xl">
-                Start editing to see some magic happen!
-            </p>
-        </div>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<CreateRoom />} />
+                    <Route path="/room/:roomID" element={<Room />} />
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
     )
 }
 
